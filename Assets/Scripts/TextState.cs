@@ -9,7 +9,7 @@ namespace Assets.Scripts
     class TextState
     {
 
-        private readonly string TextColorUntyped = "#000000";
+        private readonly string TextColorUntyped = "#00000033";
         private readonly string TextColorNext = "#00008b";
         private readonly string TextColorCorrect = "#006400";
         private readonly string TextColorCompleteMark = "#fafad244";
@@ -28,10 +28,19 @@ namespace Assets.Scripts
             Chars = text.Select((c) => new Character { Value = c, IsCorrect = false }).ToList();
         }
 
+        public void Next()
+        {
+            CurrentIndex += 1;
+            if (CurrentIndex > Chars.Count)
+            {
+                CurrentIndex = Chars.Count;
+            }
+        }
+
         public string GetRichText()
         {
             var completedText = String.Join("", Chars.Take(CurrentIndex).Select(x => x.IsCorrect ? x.Value.ToString() : $"<{TextColorWrong}>{x.Value}<{TextColorCorrect}>").ToArray());
-            var uncompletedText = new String(Chars.Skip(CurrentIndex + 1).Select(x => x.Value).ToArray());
+            var uncompletedText = new String(Chars.Skip(CurrentIndex + 1).Take(3).Select(x => x.Value).ToArray());
             var currentChar = Chars[CurrentIndex].Value;
             return $"<mark={TextColorCompleteMark}><{TextColorCorrect}>{completedText}</mark><{TextColorNext}><u>{currentChar}</u><{TextColorUntyped}>{uncompletedText}";
 
