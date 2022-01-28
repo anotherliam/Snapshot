@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
     private Pixel[][] colorLayers = { };
     private int currentLayer = 0;
     private int currentIndex = 0;
+    private int currentTextIndex = 0;
+    public int CurrentIndex;
     private GameObject[] nodes = { };
     private float lastTriggerTime = 0.0f;
     private TextMeshProUGUI textMesh;
@@ -26,13 +28,14 @@ public class GameController : MonoBehaviour
     public Texture2D[] Layers;
     public GameObject PixelPrefab;
     public GameObject TextMeshObject;
+    public GameObject Cursor;
 
     // Start is called before the first frame update
     void Start()
     {
         textMesh = TextMeshObject.GetComponent<TextMeshProUGUI>();
         textState = new Assets.Scripts.TextState("As the waves gently oscillate toward us we ponder what it is that makes the ocean so calming. Emma would argue it's not all the fish out there that is for sure. There's pirates though so maybe they aren't so bad if you can have those, she likely imagines. Of course there aren't any fish on land usually. That's actually the kind of place you'd find humans, sitting around on the shoreline drinking beers and stuff, just hanging out. Humans love that kind of thing honestly it's great. :) Course then there's that big goddamn sky out there, literally bigger than the whole planet what's up with that? Got clouds and everything, can't go anywhere without seeing that thing. To be quite honest it's so big that it might actually cause some trouble if we didn't have a lot to say about it, especially if we're holding off on talking about the interesting parts so we can have them all pop up in a pleasant way when we talk about them, something to think about anyway. Look at those stars shine. And don't forget about the moon!");
-        textMesh.SetText(textState.GetRichText());
+        UpdateText();
         var generatedLayers = new List<Pixel[]>();
         // Get pixel data from the textures
         for (var i = 0; i < Layers.Length; i++)
@@ -78,6 +81,14 @@ public class GameController : MonoBehaviour
 
     }
 
+    void UpdateText()
+    {
+        textMesh.SetText(textState.GetRichText(currentTextIndex));
+        var character = textMesh.textInfo.characterInfo[currentTextIndex];
+        var bottomLeft = textMesh.transform.TransformPoint(new Vector3(character.bottomLeft.x, character.baseLine - 8, 0));
+        Cursor.transform.position = bottomLeft;
+    }
+
 
     void HandleFinishLayer()
     {
@@ -113,8 +124,8 @@ public class GameController : MonoBehaviour
             return;
         }
         // Go to next letter as well?
-        textState.Next();
-        textMesh.SetText(textState.GetRichText());
+        currentTextIndex++;
+        UpdateText();
         // If we are on the last index, go to next layer
         if (currentIndex >= colorLayers[currentLayer].Length)
         {

@@ -9,8 +9,11 @@ namespace Assets.Scripts
     class TextState
     {
 
-        private readonly string TextColorUntyped = "#00000033";
+        private readonly string TextColorUntypedClose = "#00000033";
+        private readonly string TextColorUntypedFar = "#00000011";
+        private readonly string TextColorInvisible = "#00000000";
         private readonly string TextColorNext = "#00008b";
+        private readonly string TextColorUnderline = "#00008b";
         private readonly string TextColorCorrect = "#006400";
         private readonly string TextColorCompleteMark = "#fafad244";
         private readonly string TextColorWrong = "#8b0000";
@@ -21,30 +24,21 @@ namespace Assets.Scripts
         }
 
         public List<Character> Chars;
-        public int CurrentIndex;
 
         public TextState(string text)
         {
             Chars = text.Select((c) => new Character { Value = c, IsCorrect = false }).ToList();
         }
 
-        public void Next()
+        public string GetRichText(int currentIndex)
         {
-            CurrentIndex += 1;
-            if (CurrentIndex > Chars.Count)
-            {
-                CurrentIndex = Chars.Count;
-            }
-        }
-
-        public string GetRichText()
-        {
-            var completedText = String.Join("", Chars.Take(CurrentIndex).Select(x => x.IsCorrect ? x.Value.ToString() : $"<{TextColorWrong}>{x.Value}<{TextColorCorrect}>").ToArray());
-            var uncompletedText = new String(Chars.Skip(CurrentIndex + 1).Take(3).Select(x => x.Value).ToArray());
-            var currentChar = Chars[CurrentIndex].Value;
-            return $"<mark={TextColorCompleteMark}><{TextColorCorrect}>{completedText}</mark><{TextColorNext}><u>{currentChar}</u><{TextColorUntyped}>{uncompletedText}";
-
-
+            var completedText = String.Join("", Chars.Take(currentIndex).Select(x => x.IsCorrect ? x.Value.ToString() : $"<{TextColorWrong}>{x.Value}<{TextColorCorrect}>").ToArray());
+            var uncompletedTextBase = Chars.Skip(currentIndex + 1);
+            var uncompletedTextClose = new String(uncompletedTextBase.Take(5).Select(x => x.Value).ToArray());
+            var uncompletedTextFar = new String(uncompletedTextBase.Skip(5).Take(5).Select(x => x.Value).ToArray());
+            var uncompletedTextVeryFar = new String(uncompletedTextBase.Skip(10).Select(x => x.Value).ToArray());
+            var currentCharWithStyling = $"<{TextColorNext}>{Chars[currentIndex].Value}"; 
+            return $"<mark={TextColorCompleteMark}><{TextColorCorrect}>{completedText}</mark>{currentCharWithStyling}<{TextColorUntypedClose}>{uncompletedTextClose}<{TextColorUntypedFar}>{uncompletedTextFar}<{TextColorInvisible}>{uncompletedTextVeryFar}";
         }
     }
 }
