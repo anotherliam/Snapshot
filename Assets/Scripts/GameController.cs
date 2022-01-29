@@ -144,7 +144,7 @@ public class GameController : MonoBehaviour
                 if (c == '\b')
                 {
                     HandleBackspace();
-                } else if (c == '\n')
+                } else if (c == '\n' || c == '\r')
                 {
                     // Enter, ignore
                 }
