@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -140,6 +141,11 @@ public class GameController : MonoBehaviour
         var pixel = pixels[currentIndex];
         nodes[pixel.Index].SendMessage("TurnOff");
         UpdateText();
+    }
+
+    void HandleReturnToMenu()
+    {
+        SceneManager.LoadScene("LevelSelectScene");
     }
 
     // Update is called once per frame
