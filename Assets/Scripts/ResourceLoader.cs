@@ -40,11 +40,13 @@ namespace Assets.Scripts
             return data.text;
         }
 
-        public static AudioClip LoadMusic(int levelID)
+        public static (AudioClip, AudioClip) LoadMusic(int levelID)
         {
-            var path = BuildPath(levelID, "bgmusic");
-            AudioClip data = Resources.Load<AudioClip>(path);
-            return data;
+            var bgmusicPath = BuildPath(levelID, "bgmusic");
+            var bgmusicLoopPath = BuildPath(levelID, "bgmusicloop");
+            AudioClip bgmusic = Resources.Load<AudioClip>(bgmusicPath);
+            AudioClip bgmusicLoop = Resources.Load<AudioClip>(bgmusicLoopPath);
+            return (bgmusic, bgmusicLoop);
         }
     }
 }

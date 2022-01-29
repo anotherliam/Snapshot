@@ -13,17 +13,17 @@ public class LevelSelectController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                hit.collider.SendMessageUpwards("HandleClick");
-            } else
-            {
-                hit.collider.SendMessageUpwards("HandleHover");
-            }
-        }
+        //var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //RaycastHit hit;
+        //if (Physics.Raycast(ray, out hit))
+        //{
+        //    if (Input.GetKeyDown(KeyCode.Mouse0))
+        //    {
+        //        hit.collider.SendMessageUpwards("HandleClick");
+        //    } else
+        //    {
+        //        hit.collider.SendMessageUpwards("HandleHover");
+        //    }
+        //}
     }
 }

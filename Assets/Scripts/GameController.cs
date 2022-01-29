@@ -15,6 +15,13 @@ public class GameController : MonoBehaviour
         public Color Color;
     }
 
+    private enum SoundState
+    {
+        Intro,
+        MainTrack,
+        Loop
+    }
+
     private List<Pixel> pixels;
     private List<int> layerTriggerIndexes;
     private GameObject[] nodes = { };
@@ -24,10 +31,9 @@ public class GameController : MonoBehaviour
     private Assets.Scripts.TextState textState;
     private AudioSource audioSource;
     private float timeLeftInAudio;
-    private bool isPlayingIntroSound = true;
+    private SoundState soundState = SoundState.Intro;
     private AudioClip bgMusic;
-
-    private const float REPEAT_TIME = 1f / 30f; // 30 times per second
+    private AudioClip bgMusicLoop;
 
     public GameObject PixelPrefab;
     public GameObject TextMeshObject;
@@ -40,13 +46,13 @@ public class GameController : MonoBehaviour
         var levelID = GlobalGameState.GameState.SelectedLevelID;
         var layers = ResourceLoader.LoadImages(levelID);
         var story = ResourceLoader.LoadStory(levelID);
-        bgMusic = ResourceLoader.LoadMusic(levelID);
+        (bgMusic, bgMusicLoop) = ResourceLoader.LoadMusic(levelID);
 
         Cursor.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
         textMesh = TextMeshObject.GetComponent<TextMeshPro>();
         textState = new Assets.Scripts.TextState(story);
 
-        // Do some sound stuff
+        // Play the initial sound effect
         audioSource = GetComponent<AudioSource>();
         timeLeftInAudio = audioSource.clip.length;
         
@@ -153,14 +159,24 @@ public class GameController : MonoBehaviour
     {
 
         // Sound update
-        if (isPlayingIntroSound)
+        if (soundState == SoundState.Intro)
         {
             timeLeftInAudio -= Time.deltaTime;
             if (timeLeftInAudio <= 0f)
             {
-                isPlayingIntroSound = false;
-                audioSource.loop = true;
+                soundState = SoundState.MainTrack;
+                audioSource.loop = false;
                 audioSource.clip = bgMusic;
+                audioSource.Play();
+            }
+        } else if (soundState == SoundState.MainTrack)
+        {
+            timeLeftInAudio -= Time.deltaTime;
+            if (timeLeftInAudio <= 0f)
+            {
+                soundState = SoundState.Loop;
+                audioSource.loop = true;
+                audioSource.clip = bgMusicLoop;
                 audioSource.Play();
             }
         }
