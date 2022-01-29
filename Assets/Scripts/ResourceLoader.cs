@@ -39,5 +39,12 @@ namespace Assets.Scripts
             TextAsset data = Resources.Load<TextAsset>(path);
             return data.text;
         }
+
+        public static AudioClip LoadMusic(int levelID)
+        {
+            var path = BuildPath(levelID, "bgmusic");
+            AudioClip data = Resources.Load<AudioClip>(path);
+            return data;
+        }
     }
 }

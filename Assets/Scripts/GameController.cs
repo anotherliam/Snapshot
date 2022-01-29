@@ -21,6 +21,10 @@ public class GameController : MonoBehaviour
     private float lastTriggerTime = 0.0f;
     private TextMeshPro textMesh;
     private Assets.Scripts.TextState textState;
+    private AudioSource audioSource;
+    private float timeLeftInAudio;
+    private bool isPlayingIntroSound = true;
+    private AudioClip bgMusic;
 
     private const float REPEAT_TIME = 1f / 30f; // 30 times per second
 
@@ -31,14 +35,19 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Load images and story
+        // Load images, sounds and story
         var levelID = GlobalGameState.GameState.SelectedLevelID;
         var layers = ResourceLoader.LoadImages(levelID);
         var story = ResourceLoader.LoadStory(levelID);
+        bgMusic = ResourceLoader.LoadMusic(levelID);
 
         Cursor.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
         textMesh = TextMeshObject.GetComponent<TextMeshPro>();
         textState = new Assets.Scripts.TextState(story);
+
+        // Do some sound stuff
+        audioSource = GetComponent<AudioSource>();
+        timeLeftInAudio = audioSource.clip.length;
         
         // Do an initial set and force update here otherwise the first time the cursor renders it will be in the wrong place
         textMesh.SetText(textState.GetRichText(currentIndex));
@@ -136,6 +145,20 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        // Sound update
+        if (isPlayingIntroSound)
+        {
+            timeLeftInAudio -= Time.deltaTime;
+            if (timeLeftInAudio <= 0f)
+            {
+                isPlayingIntroSound = false;
+                audioSource.loop = true;
+                audioSource.clip = bgMusic;
+                audioSource.Play();
+            }
+        }
+
         var str = Input.inputString;
         if (str.Length >= 1)
         {
