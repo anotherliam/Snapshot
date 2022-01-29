@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,6 @@ public class GameController : MonoBehaviour
 
     private const float REPEAT_TIME = 1f / 30f; // 30 times per second
 
-    public Texture2D[] Layers;
     public GameObject PixelPrefab;
     public GameObject TextMeshObject;
     public GameObject Cursor;
@@ -31,9 +31,14 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Load images and story
+        var levelID = GlobalGameState.GameState.SelectedLevelID;
+        var layers = ResourceLoader.LoadImages(levelID);
+        var story = ResourceLoader.LoadStory(levelID);
+
         Cursor.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
         textMesh = TextMeshObject.GetComponent<TextMeshPro>();
-        textState = new Assets.Scripts.TextState("Nightfall, and the dark tide rolls in, rolls out with a sound like a loosed breath. I sigh with it, feel the day's cares catch on the breeze and drift away, away to the distant horizon. Beneath the sea's calm surface are restless fathoms, unplumbed depths. At this time of evening you glimpse the rhythm of other lives. From the apartment above comes the music of laughter. The air is fragrant with spices. Across the road the neighbours arrive home and their windows, one by one, are lit. Behind me, my own apartment remains silent and dark, the oven cold. I lean on the balcony rail and watch the clouds move across the sky like ghosts. Out there, beyond the world, in the cold darkness of space, satellites swing in endless orbit and planets revolve around stars that are, in the end, always doomed to die. If you piloted a spaceship through that void, you could go lightyears without meeting another soul. And yet I think it couldn't be any lonelier than here. But then the stars ignite and the moon traces a path to me.");
+        textState = new Assets.Scripts.TextState(story);
         
         // Do an initial set and force update here otherwise the first time the cursor renders it will be in the wrong place
         textMesh.SetText(textState.GetRichText(currentIndex));
@@ -43,9 +48,9 @@ public class GameController : MonoBehaviour
         layerTriggerIndexes = new List<int>();
         pixels = new List<Pixel>();
         // Get pixel data from the textures
-        for (var i = 0; i < Layers.Length; i++)
+        for (var i = 0; i < layers.Count; i++)
         {
-            var texture = Layers[i];
+            var texture = layers[i];
             // Add a trigger for start of a new layer
             layerTriggerIndexes.Add(pixels.Count);
 

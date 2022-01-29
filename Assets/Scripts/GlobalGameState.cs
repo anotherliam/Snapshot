@@ -9,7 +9,7 @@ namespace Assets.Scripts
     class GlobalGameState
     {
 
-        public int SelectedLevelID = 0;
+        public int SelectedLevelID = 1;
 
         // Singletons are kinda an anti-pattern but google says this is the normal way of preserving state between scenes
         private static GlobalGameState state;
