@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelectItem : MonoBehaviour
 {
+
+    public int LevelID;
+
     Vector3 startPos;
     Vector3 hoverPos;
     bool isHovering = false;
@@ -35,7 +39,8 @@ public class LevelSelectItem : MonoBehaviour
     }
     public void HandleClick()
     {
-        Debug.Log($"Clicked {name}");
+        Debug.Log($"Clicked {name} - Level: {LevelID}");
+        GlobalGameState.GameState.SelectedLevelID = LevelID;
         SceneManager.LoadScene("SampleScene");
     }
 }
