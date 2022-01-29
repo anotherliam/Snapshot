@@ -1,6 +1,4 @@
-01-Water-256
-02-Ground-229
-03-Lights-4
-04-Sky-475
-05-Stars-26
-06-Moon-34
+01-Desert-Camels-289
+02-Desert-Ground-340
+03-Desert-Sky-255
+04-Desert-Oasis-140

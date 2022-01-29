@@ -1,6 +1,5 @@
-01-Water-256
-02-Ground-229
-03-Lights-4
-04-Sky-475
-05-Stars-26
-06-Moon-34
+01-Ruins-Fog-225
+02-Ruins-Mountains-192
+03-Ruins-Foliage-114
+04-Ruins-Grass-189
+05-Ruins-Ruin-304
