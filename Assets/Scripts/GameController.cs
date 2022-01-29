@@ -165,6 +165,7 @@ public class GameController : MonoBehaviour
             if (timeLeftInAudio <= 0f)
             {
                 soundState = SoundState.MainTrack;
+                timeLeftInAudio = bgMusic.length;
                 audioSource.loop = false;
                 audioSource.clip = bgMusic;
                 audioSource.Play();
