@@ -13,7 +13,7 @@ public class TypingSounds : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    void HandlePlayRandomClip()
+    public void HandlePlayRandomClip()
     {
         var clipIdx = Random.Range(0, Clips.Length);
         audioSource.PlayOneShot(Clips[clipIdx]);

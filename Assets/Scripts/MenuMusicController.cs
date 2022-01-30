@@ -31,6 +31,7 @@ public class MenuMusicController : MonoBehaviour
             {
                 audioSource.clip = AudioLoop;
                 audioSource.loop = true;
+                audioSource.Play();
             }
         }
 
