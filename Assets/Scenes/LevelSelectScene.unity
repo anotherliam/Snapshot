@@ -598,6 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BlackImage: {fileID: 653094518}
+  BGMusicObject: {fileID: 147488267}
 --- !u!4 &352178113
 Transform:
   m_ObjectHideFlags: 0

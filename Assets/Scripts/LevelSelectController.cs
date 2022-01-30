@@ -9,17 +9,21 @@ public class LevelSelectController : MonoBehaviour
 {
     private readonly float FADE_TIME = 1f;
     private readonly Color ColorTransparentBlack = new Color(0, 0, 0, 0);
-
-    public GameObject BlackImage;
     private Image imageComponent;
     private AudioSource audioSource;
+    private AudioSource bgMusicAudioSource;
     private bool isLoading = false;
     private float audioTimeLeft = 0f;
     private float fadeProgress = 0f;
 
+    public GameObject BlackImage;
+    public GameObject BGMusicObject;
+
+
     public void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        bgMusicAudioSource = BGMusicObject.GetComponent<AudioSource>();
         imageComponent = BlackImage.GetComponent<Image>();
     }
 
@@ -47,6 +51,8 @@ public class LevelSelectController : MonoBehaviour
             fadeProgress += Time.deltaTime;
             var prog = fadeProgress / FADE_TIME;
             var newCol = Color.Lerp(ColorTransparentBlack, Color.black, prog);
+            var newVol = Mathf.Lerp(1.0f, 0f, prog);
+            bgMusicAudioSource.volume = newVol;
             imageComponent.color = newCol;
             if (audioTimeLeft <= 0f && prog >= 1.0f)
             {
