@@ -157,29 +157,41 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // Sound update
-        if (soundState == SoundState.Intro)
+        var musicEnabled = GlobalGameState.GameState.MusicEnabled;
+        if (musicEnabled)
         {
-            timeLeftInAudio -= Time.deltaTime;
-            if (timeLeftInAudio <= 0f)
+
+            // un-mute since we're enabled
+            audioSource.mute = false;
+
+            if (soundState == SoundState.Intro)
             {
-                soundState = SoundState.MainTrack;
-                timeLeftInAudio = bgMusic.length;
-                audioSource.loop = false;
-                audioSource.clip = bgMusic;
-                audioSource.Play();
+                timeLeftInAudio -= Time.deltaTime;
+                if (timeLeftInAudio <= 0f)
+                {
+                    soundState = SoundState.MainTrack;
+                    timeLeftInAudio = bgMusic.length;
+                    audioSource.loop = false;
+                    audioSource.clip = bgMusic;
+                    audioSource.Play();
+                }
             }
-        } else if (soundState == SoundState.MainTrack)
+            else if (soundState == SoundState.MainTrack)
+            {
+                timeLeftInAudio -= Time.deltaTime;
+                if (timeLeftInAudio <= 0f)
+                {
+                    soundState = SoundState.Loop;
+                    audioSource.loop = true;
+                    audioSource.clip = bgMusicLoop;
+                    audioSource.Play();
+                }
+            }
+        } else
         {
-            timeLeftInAudio -= Time.deltaTime;
-            if (timeLeftInAudio <= 0f)
-            {
-                soundState = SoundState.Loop;
-                audioSource.loop = true;
-                audioSource.clip = bgMusicLoop;
-                audioSource.Play();
-            }
+            // Set mute since we're disabled
+            audioSource.mute = true;
         }
 
         var str = Input.inputString;
@@ -202,22 +214,5 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-        //if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse1))
-        //{
-        //    HandleFinishLayer();
-        //}
-        //else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.Mouse0))
-        //{
-        //    HandleNextPixel();
-        //}
-        //else if (Input.GetKey(KeyCode.RightArrow))
-        //{
-        //    if (lastTriggerTime + REPEAT_TIME <= Time.time)
-        //    {
-        //        lastTriggerTime = Time.time;
-        //        HandleNextPixel();
-        //    }
-
-        //}
     }
 }
