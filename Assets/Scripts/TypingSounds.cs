@@ -15,7 +15,10 @@ public class TypingSounds : MonoBehaviour
 
     public void HandlePlayRandomClip()
     {
-        var clipIdx = Random.Range(0, Clips.Length);
-        audioSource.PlayOneShot(Clips[clipIdx]);
+        if (Assets.Scripts.GlobalGameState.GameState.SoundEnabled)
+        {
+            var clipIdx = Random.Range(0, Clips.Length);
+            audioSource.PlayOneShot(Clips[clipIdx]);
+        }
     }
 }
