@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
 
     public GameObject PixelPrefab;
     public GameObject TextMeshObject;
+    public GameObject TypingSoundsObject;
     public GameObject Cursor;
 
     // Start is called before the first frame update
@@ -134,6 +135,8 @@ public class GameController : MonoBehaviour
         nodes[pixel.Index].SendMessage("TurnOn", pixel.Color);
         currentIndex += 1;
         UpdateText();
+        // Play sound
+        TypingSoundsObject.SendMessage("HandlePlayRandomClip");
 
         // If that was the last one, mark as completed
         if (currentIndex >= pixels.Count)
