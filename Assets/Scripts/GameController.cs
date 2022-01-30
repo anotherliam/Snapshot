@@ -23,7 +23,6 @@ public class GameController : MonoBehaviour
     private List<int> layerTriggerIndexes;
     private GameObject[] nodes = { };
     private int currentIndex = 0;
-    private float lastTriggerTime = 0.0f;
     private TextMeshPro textMesh;
     private Assets.Scripts.TextState textState;
     private AudioSource audioSource;
@@ -130,17 +129,19 @@ public class GameController : MonoBehaviour
     void HandleNextPixel()
     {
         if (gameIsFinished) return;
+        // Draw the current pixel
+        var pixel = pixels[currentIndex];
+        nodes[pixel.Index].SendMessage("TurnOn", pixel.Color);
+        currentIndex += 1;
+        UpdateText();
+
+        // If that was the last one, mark as completed
         if (currentIndex >= pixels.Count)
         {
             Debug.Log("Finished");
             HandleGameFinished();
             return;
         }
-        // Draw the current pixel
-        var pixel = pixels[currentIndex];
-        nodes[pixel.Index].SendMessage("TurnOn", pixel.Color);
-        currentIndex += 1;
-        UpdateText();
 
     }
     
