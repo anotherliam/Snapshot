@@ -124,7 +124,7 @@ public class GameController : MonoBehaviour
         Cursor.transform.localPosition = new Vector3(-500, -500, 0);
         gameIsFinished = true;
         GlobalGameState.GameState.SetLevelCompleted(levelID);
-        ReturnToLevelSelectText.GetComponent<TextMeshPro>().SetText("Return to level select\n\n       (Level Complete)");
+        ReturnToLevelSelectText.GetComponent<TextMeshPro>().SetText("Return to menu\n\n       (Level Complete)");
     }
 
     void HandleNextPixel()

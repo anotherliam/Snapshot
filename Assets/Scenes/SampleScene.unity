@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Return to level select\n\n       (Progress will be lost)
+  m_text: Return to menu\n\n       (Progress will be lost)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e282a26c4d84a9646b1bf57becdcd563, type: 2}
   m_sharedMaterial: {fileID: 1829917385616032359, guid: e282a26c4d84a9646b1bf57becdcd563, type: 2}
