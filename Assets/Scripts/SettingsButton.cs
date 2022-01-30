@@ -10,6 +10,7 @@ public class SettingsButton : MonoBehaviour
     private Color DisabledColor = Color.red;
     private Color HoverColor = Color.white;
 
+    private AudioSource audioSource;
     private bool isEnabled;
     private Renderer rend;
 
@@ -26,6 +27,7 @@ public class SettingsButton : MonoBehaviour
 
     private void Refresh()
     {
+        audioSource = GetComponent<AudioSource>();
         var gameState = GlobalGameState.GameState;
         isEnabled = IsMusic ? gameState.MusicEnabled : gameState.SoundEnabled;
         rend.material.mainTexture = isEnabled ? On : Off;
@@ -39,7 +41,10 @@ public class SettingsButton : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        Debug.Log("Mouse Enter");
+        if (GlobalGameState.GameState.SoundEnabled)
+        {
+            audioSource.Play();
+        }
         rend.material.SetColor("_Color", HoverColor);
     }
 
@@ -50,7 +55,6 @@ public class SettingsButton : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        Debug.Log("Mouse Click");
         var gameState = GlobalGameState.GameState;
         if (IsMusic)
         {
