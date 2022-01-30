@@ -14,10 +14,7 @@ public class MenuMusicController : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         timeLeft = audioSource.clip.length;
-        if (!GlobalGameState.GameState.MusicEnabled)
-        {
-            audioSource.Pause();
-        }
+        audioSource.mute = !GlobalGameState.GameState.MusicEnabled;
     }
 
     // Update is called once per frame

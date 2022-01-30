@@ -48,7 +48,10 @@ public class EndLevelButton : MonoBehaviour
     private void OnMouseUpAsButton()
     {
         if (isFading) return;
-        audioSource.PlayOneShot(OnExitSound);
+        if (GlobalGameState.GameState.SoundEnabled)
+        {
+            audioSource.PlayOneShot(OnExitSound);
+        }
         isFading = true;
         fadeProgress = 0f;
     }
