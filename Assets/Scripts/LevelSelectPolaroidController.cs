@@ -9,6 +9,7 @@ namespace Assets.Scripts
     class LevelSelectPolaroidController : MonoBehaviour
     {
 
+        private AudioSource audioSource;
         public Texture2D CompletedTexture;
         public GameObject SelectionObject;
         public GameObject PaperObject;
@@ -17,6 +18,7 @@ namespace Assets.Scripts
 
         void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             var completed = GlobalGameState.GameState.IsLevelCompleted(LevelID);
             if (completed)
             {
@@ -31,6 +33,10 @@ namespace Assets.Scripts
         private void OnMouseEnter()
         {
             SelectionObject.SetActive(true);
+            if (GlobalGameState.GameState.SoundEnabled)
+            {
+                audioSource.Play();
+            }
         }
         private void OnMouseExit()
         {
