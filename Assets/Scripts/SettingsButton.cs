@@ -6,8 +6,8 @@ using UnityEngine;
 public class SettingsButton : MonoBehaviour
 {
 
-    private Color EnabledColor = Color.blue;
-    private Color DisabledColor = Color.red;
+    private Color EnabledColor = new Color(0.17f, 0.26f, 0.54f);
+    private Color DisabledColor = new Color(0.79f, 0.25f, 0.27f);
     private Color HoverColor = Color.white;
 
     private AudioSource audioSource;
