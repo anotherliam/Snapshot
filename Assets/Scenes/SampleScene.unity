@@ -1771,6 +1771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081d5878dc9cee54d833e2e697ab7b11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReturnToLevelSelectText: {fileID: 1102340991}
   PixelPrefab: {fileID: 2420768342605889343, guid: 211c5b6ecd6c3f84e88a166063749cc7, type: 3}
   TextMeshObject: {fileID: 407556782}
   Cursor: {fileID: 1605093990}

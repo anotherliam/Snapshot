@@ -9,7 +9,7 @@ namespace Assets.Scripts
     class GlobalGameState
     {
 
-        private bool[] levelsCompleted = { false, true, false, false };
+        private bool[] levelsCompleted = { false, false, false, false };
 
         public int SelectedLevelID = 1;
         public bool SoundEnabled = true;

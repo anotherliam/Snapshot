@@ -15,7 +15,10 @@ public class GameController : MonoBehaviour
         public Color Color;
     }
 
+    public GameObject ReturnToLevelSelectText;
 
+    private bool gameIsFinished = false;
+    private int levelID;
     private List<Pixel> pixels;
     private List<int> layerTriggerIndexes;
     private GameObject[] nodes = { };
@@ -37,7 +40,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         // Load images, sounds and story
-        var levelID = GlobalGameState.GameState.SelectedLevelID;
+        levelID = GlobalGameState.GameState.SelectedLevelID;
         var layers = ResourceLoader.LoadImages(levelID);
         var story = ResourceLoader.LoadStory(levelID);
         (bgMusic, bgMusicLoop) = ResourceLoader.LoadMusic(levelID);
@@ -116,16 +119,24 @@ public class GameController : MonoBehaviour
         Cursor.transform.position = bottomLeft;
     }
 
+    void HandleGameFinished()
+    {
+        Cursor.transform.localPosition = new Vector3(-500, -500, 0);
+        gameIsFinished = true;
+        GlobalGameState.GameState.SetLevelCompleted(levelID);
+        ReturnToLevelSelectText.GetComponent<TextMeshPro>().SetText("Return to level select\n\n       (Level Complete)");
+    }
+
     void HandleNextPixel()
     {
-        // If weve finished
+        if (gameIsFinished) return;
         if (currentIndex >= pixels.Count)
         {
             Debug.Log("Finished");
-            Cursor.transform.localScale = new Vector3(0, 0, 0);
+            HandleGameFinished();
             return;
         }
-        // Draw the next pixel
+        // Draw the current pixel
         var pixel = pixels[currentIndex];
         nodes[pixel.Index].SendMessage("TurnOn", pixel.Color);
         currentIndex += 1;
@@ -135,6 +146,7 @@ public class GameController : MonoBehaviour
     
     void HandleBackspace()
     {
+        if (gameIsFinished) return;
         if (currentIndex <= 0)
         {
             return;

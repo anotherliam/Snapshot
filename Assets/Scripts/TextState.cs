@@ -39,6 +39,7 @@ namespace Assets.Scripts
 
         public void EnterChar(int index, char c)
         {
+            if (index >= Chars.Count) return;
             Chars[index] = new Character
             {
                 ActualChar = Chars[index].ActualChar,
