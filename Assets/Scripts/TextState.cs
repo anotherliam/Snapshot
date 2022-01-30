@@ -10,13 +10,12 @@ namespace Assets.Scripts
     {
 
 
-        private readonly string TextColorUntypedClose = "#000000aa";
-        private readonly string TextColorUntypedFar = "#00000077";
+        private readonly string TextColorUntypedClose = "#00000088";
+        private readonly string TextColorUntypedFar = "#00000055";
         private readonly string TextColorInvisible = "#00000000";
-        private readonly string TextColorNext = "#00008b";
-        private readonly string TextColorCorrect = "#111111";
-        private readonly string TextColorCompleteMark = "#fafad244";
-        private readonly string TextColorWrong = "#ff0000";
+        private readonly string TextColorNext = "#000000";
+        private readonly string TextColorCorrect = "#2C438B";
+        private readonly string TextColorWrong = "#CA4147";
         public struct Character
         {
             public char ActualChar;
@@ -60,7 +59,7 @@ namespace Assets.Scripts
             var currentCharWithStyling = (currentIndex < Chars.Count)
                 ? $"<{TextColorNext}>{Chars[currentIndex].ActualChar}"
                 : "";
-            return $"<mark={TextColorCompleteMark}><{TextColorCorrect}>{completedText}</mark>{currentCharWithStyling}<{TextColorUntypedClose}>{uncompletedTextClose}<{TextColorUntypedFar}>{uncompletedTextFar}<{TextColorInvisible}>{uncompletedTextVeryFar}";
+            return $"<{TextColorCorrect}>{completedText}{currentCharWithStyling}<{TextColorUntypedClose}>{uncompletedTextClose}<{TextColorUntypedFar}>{uncompletedTextFar}<{TextColorInvisible}>{uncompletedTextVeryFar}";
         }
     }
 }
