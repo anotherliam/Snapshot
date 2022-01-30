@@ -35,6 +35,7 @@ public class GameController : MonoBehaviour
     public GameObject TextMeshObject;
     public GameObject TypingSoundsObject;
     public GameObject Cursor;
+    public AudioClip CompletionSound;
 
     // Start is called before the first frame update
     void Start()
@@ -121,6 +122,9 @@ public class GameController : MonoBehaviour
 
     void HandleGameFinished()
     {
+        // Play complete sound
+        audioSource.PlayOneShot(CompletionSound);
+
         Cursor.transform.localPosition = new Vector3(-500, -500, 0);
         gameIsFinished = true;
         GlobalGameState.GameState.SetLevelCompleted(levelID);

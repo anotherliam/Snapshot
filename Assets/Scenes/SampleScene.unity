@@ -1979,6 +1979,7 @@ MonoBehaviour:
   TextMeshObject: {fileID: 407556782}
   TypingSoundsObject: {fileID: 1056616380}
   Cursor: {fileID: 1605093990}
+  CompletionSound: {fileID: 8300000, guid: f139aafaa6d2fb44197b0aa2439c3cff, type: 3}
 --- !u!4 &1597250392
 Transform:
   m_ObjectHideFlags: 0
