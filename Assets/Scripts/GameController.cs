@@ -15,12 +15,6 @@ public class GameController : MonoBehaviour
         public Color Color;
     }
 
-    private enum SoundState
-    {
-        Intro,
-        MainTrack,
-        Loop
-    }
 
     private List<Pixel> pixels;
     private List<int> layerTriggerIndexes;
@@ -31,7 +25,7 @@ public class GameController : MonoBehaviour
     private Assets.Scripts.TextState textState;
     private AudioSource audioSource;
     private float timeLeftInAudio;
-    private SoundState soundState = SoundState.Intro;
+    private bool isPlayingLoopAudio = false;
     private AudioClip bgMusic;
     private AudioClip bgMusicLoop;
 
@@ -54,8 +48,10 @@ public class GameController : MonoBehaviour
 
         // Play the initial sound effect
         audioSource = GetComponent<AudioSource>();
+        audioSource.clip = bgMusic;
         timeLeftInAudio = audioSource.clip.length;
-        
+        audioSource.Play();
+
         // Do an initial set and force update here otherwise the first time the cursor renders it will be in the wrong place
         textMesh.SetText(textState.GetRichText(currentIndex));
         textMesh.ForceMeshUpdate();
@@ -161,37 +157,25 @@ public class GameController : MonoBehaviour
         var musicEnabled = GlobalGameState.GameState.MusicEnabled;
         if (musicEnabled)
         {
-
             // un-mute since we're enabled
             audioSource.mute = false;
-
-            if (soundState == SoundState.Intro)
-            {
-                timeLeftInAudio -= Time.deltaTime;
-                if (timeLeftInAudio <= 0f)
-                {
-                    soundState = SoundState.MainTrack;
-                    timeLeftInAudio = bgMusic.length;
-                    audioSource.loop = false;
-                    audioSource.clip = bgMusic;
-                    audioSource.Play();
-                }
-            }
-            else if (soundState == SoundState.MainTrack)
-            {
-                timeLeftInAudio -= Time.deltaTime;
-                if (timeLeftInAudio <= 0f)
-                {
-                    soundState = SoundState.Loop;
-                    audioSource.loop = true;
-                    audioSource.clip = bgMusicLoop;
-                    audioSource.Play();
-                }
-            }
         } else
         {
             // Set mute since we're disabled
             audioSource.mute = true;
+        }
+
+        if (!isPlayingLoopAudio)
+        {
+            timeLeftInAudio -= Time.deltaTime;
+            if (timeLeftInAudio <= 0f)
+            {
+                isPlayingLoopAudio = true;
+                timeLeftInAudio = bgMusicLoop.length;
+                audioSource.loop = true;
+                audioSource.clip = bgMusicLoop;
+                audioSource.Play();
+            }
         }
 
         var str = Input.inputString;

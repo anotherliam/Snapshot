@@ -38,8 +38,8 @@ namespace Assets.Scripts
         }
         private void OnMouseUpAsButton()
         {
-            GlobalGameState.GameState.SelectedLevelID = LevelID;
-            SceneManager.LoadScene("SampleScene");
+            var gameController = GameObject.FindGameObjectWithTag("LevelSelectController");
+            gameController.SendMessage("HandleLoadLevel", LevelID);
         }
 
     }
