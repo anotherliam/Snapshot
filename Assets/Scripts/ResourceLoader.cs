@@ -27,7 +27,7 @@ namespace Assets.Scripts
             var lines = data.text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             foreach (var line in lines)
             {
-                var imagePath = BuildPath(levelID, line);
+                var imagePath = BuildPath(levelID, line.Trim());
                 images.Add(Resources.Load<Texture2D>(imagePath));
             }
             return images;
